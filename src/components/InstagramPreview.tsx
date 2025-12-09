@@ -1,37 +1,37 @@
 import { Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// Instagram post links - update these with actual post URLs
+// Instagram post links from @fhooe_racingteam
 const instagramPosts = [
   {
     id: "1",
-    url: "https://www.instagram.com/p/C_example1/",
-    embedUrl: "https://www.instagram.com/p/C_example1/embed",
+    url: "https://www.instagram.com/p/DJBaQ8Ltzbi/",
+    embedUrl: "https://www.instagram.com/p/DJBaQ8Ltzbi/embed",
   },
   {
     id: "2",
-    url: "https://www.instagram.com/p/C_example2/",
-    embedUrl: "https://www.instagram.com/p/C_example2/embed",
+    url: "https://www.instagram.com/p/DI_qJ1iNMmI/",
+    embedUrl: "https://www.instagram.com/p/DI_qJ1iNMmI/embed",
   },
   {
     id: "3",
-    url: "https://www.instagram.com/p/C_example3/",
-    embedUrl: "https://www.instagram.com/p/C_example3/embed",
+    url: "https://www.instagram.com/p/DI0paBENiOy/",
+    embedUrl: "https://www.instagram.com/p/DI0paBENiOy/embed",
   },
   {
     id: "4",
-    url: "https://www.instagram.com/p/C_example4/",
-    embedUrl: "https://www.instagram.com/p/C_example4/embed",
+    url: "https://www.instagram.com/p/DIvhTxBN2qR/",
+    embedUrl: "https://www.instagram.com/p/DIvhTxBN2qR/embed",
   },
   {
     id: "5",
-    url: "https://www.instagram.com/p/C_example5/",
-    embedUrl: "https://www.instagram.com/p/C_example5/embed",
+    url: "https://www.instagram.com/p/DImhCi3NqJn/",
+    embedUrl: "https://www.instagram.com/p/DImhCi3NqJn/embed",
   },
   {
     id: "6",
-    url: "https://www.instagram.com/p/C_example6/",
-    embedUrl: "https://www.instagram.com/p/C_example6/embed",
+    url: "https://www.instagram.com/p/DIhE1CMN7qo/",
+    embedUrl: "https://www.instagram.com/p/DIhE1CMN7qo/embed",
   },
 ];
 

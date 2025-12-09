@@ -1,4 +1,5 @@
 import heroBanner from "@/assets/hero-banner.png";
+import checkeredPattern from "@/assets/checkered-pattern.png";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 
@@ -16,11 +17,17 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
       </div>
 
+      {/* Checkered Pattern Overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-10 mix-blend-overlay"
+        style={{ backgroundImage: `url(${checkeredPattern})` }}
+      />
+
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center pt-20">
         <div className="animate-fade-in">
-          <p className="text-primary font-semibold tracking-wider uppercase mb-4">
-            FH Upper Austria
+          <p className="text-primary font-bold tracking-widest uppercase mb-4 text-lg md:text-xl">
+            "To The Racetrack!"
           </p>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
             FHOÖ Racing Team

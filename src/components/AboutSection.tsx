@@ -1,10 +1,31 @@
-import { Target, Trophy, Users, Wrench } from "lucide-react";
+import { Target, Trophy, Users, Zap } from "lucide-react";
 
 const stats = [
-  { icon: Trophy, value: "5+", label: "Competition Wins" },
-  { icon: Users, value: "40+", label: "Team Members" },
-  { icon: Wrench, value: "10,000+", label: "Engineering Hours" },
-  { icon: Target, value: "180", label: "km/h Top Speed" },
+  { icon: Trophy, value: "2023", label: "Established" },
+  { icon: Users, value: "50+", label: "Team Members" },
+  { icon: Zap, value: "2x35kW", label: "Electric Power" },
+  { icon: Target, value: "4", label: "Campuses" },
+];
+
+const disciplines = [
+  {
+    title: "Static Disciplines",
+    items: [
+      { name: "Engineering Design Report", desc: "Design and production process explanation" },
+      { name: "Cost Report", desc: "Detailed cost analysis of all components" },
+      { name: "Business Plan", desc: "Professional presentation of a business idea" },
+    ],
+  },
+  {
+    title: "Dynamic Disciplines",
+    items: [
+      { name: "Acceleration", desc: "75m acceleration test" },
+      { name: "Autocross", desc: "800m handling course" },
+      { name: "Skid Pad", desc: "Figure-eight driving" },
+      { name: "Endurance", desc: "22km endurance test" },
+      { name: "Efficiency", desc: "Energy consumption evaluation" },
+    ],
+  },
 ];
 
 export function AboutSection() {
@@ -16,32 +37,49 @@ export function AboutSection() {
             About Us
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Driven by Passion, Powered by Innovation
+            University of Applied Sciences Upper Austria
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            We are a team of dedicated engineering students from diverse
-            disciplines, united by our passion for motorsport and innovation.
+          <p className="text-muted-foreground max-w-3xl mx-auto">
+            Formula Student is an international design competition where student teams
+            from around the world compete with self-designed and built racing cars.
+            In 8 different disciplines, the best overall package is put to the test.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+        <div className="grid md:grid-cols-2 gap-12 items-start mb-16">
           <div>
             <h3 className="text-2xl font-bold text-foreground mb-4">
               Our Mission
             </h3>
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              Formula Student is the world's largest engineering design
-              competition, challenging university students to design, build, and
-              race single-seat formula-style racing cars. Our team combines
-              cutting-edge technology with relentless determination to compete
-              against the best universities globally.
+              The FHOÖ Racing Team, established in August 2023, is one of the
+              newest additions to the Formula Student community. As part of the
+              University of Applied Sciences Upper Austria, the team combines
+              expertise from various technical fields to maximize efficiency and
+              innovation.
             </p>
-            <p className="text-muted-foreground leading-relaxed">
-              Every year, we push ourselves to innovate, optimize, and deliver a
-              car that represents the pinnacle of student engineering. From
-              aerodynamics to powertrain, every component is designed,
-              manufactured, and tested by our team members.
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              With strong motivation and teamwork, we aim to steadily develop
+              our car and organization to compete at a high level in future
+              seasons. Our university spans four campuses: Wels (Engineering),
+              Steyr (Business), Hagenberg (Informatics), and Linz (Medical Engineering).
             </p>
+            <div className="grid grid-cols-2 gap-4">
+              {disciplines.map((category) => (
+                <div key={category.title}>
+                  <h4 className="font-semibold text-foreground mb-2 text-sm">
+                    {category.title}
+                  </h4>
+                  <ul className="space-y-1">
+                    {category.items.map((item) => (
+                      <li key={item.name} className="text-muted-foreground text-xs">
+                        • {item.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-6">
             {stats.map((stat) => (

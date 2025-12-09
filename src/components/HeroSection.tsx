@@ -1,5 +1,5 @@
 import heroBanner from "@/assets/hero-banner.png";
-import checkeredPattern from "@/assets/checkered-pattern.png";
+import checkeredBackground from "@/assets/checkered-background.avif";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 
@@ -9,18 +9,18 @@ export function HeroSection() {
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Background Image */}
+      {/* Checkered Background */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroBanner})` }}
+        style={{ backgroundImage: `url(${checkeredBackground})` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
+        <div className="absolute inset-0 bg-background/80" />
       </div>
 
-      {/* Checkered Pattern Overlay */}
+      {/* Hero Banner Overlay */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-10 mix-blend-overlay"
-        style={{ backgroundImage: `url(${checkeredPattern})` }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat mix-blend-lighten opacity-60"
+        style={{ backgroundImage: `url(${heroBanner})` }}
       />
 
       {/* Content */}

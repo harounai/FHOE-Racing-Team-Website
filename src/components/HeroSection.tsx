@@ -1,56 +1,61 @@
 import heroBanner from "@/assets/hero-banner.png";
+import checkeredBackground from "@/assets/checkered-background.avif";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 
 export function HeroSection() {
-  const scrollToAbout = () => {
-    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background to-primary/10">
-      {/* Subtle geometric accents */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] rounded-full bg-accent/5 blur-3xl" />
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
+      {/* Checkered Background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${checkeredBackground})` }}
+      >
+        <div className="absolute inset-0 bg-background/80" />
       </div>
 
+      {/* Hero Banner Overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat mix-blend-lighten opacity-60"
+        style={{ backgroundImage: `url(${heroBanner})` }}
+      />
+
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 text-center">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <img
-            src={heroBanner}
-            alt="FHOOE Racing Team Banner"
-            className="w-full max-w-2xl mx-auto animate-fade-in"
-          />
-          
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground tracking-tight">
-            To The Racetrack!
-          </h1>
-          
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Formula Student Team at FH Upper Austria - Engineering Excellence, Racing Passion
+      <div className="relative z-10 container mx-auto px-4 text-center pt-20">
+        <div className="animate-fade-in">
+          <p className="text-primary font-bold tracking-widest uppercase mb-4 text-lg md:text-xl">
+            "To The Racetrack!"
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <Button size="lg" onClick={scrollToAbout}>
-              Discover More
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
+            FHOÖ Racing Team
+            <span className="text-primary block">Formula Student</span>
+          </h1>
+          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-8">
+            Established in August 2023, we're one of the newest additions to the
+            Formula Student community. Combining expertise from various technical
+            fields to build an electric racing car.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="text-base" asChild>
+              <a href="#about">Discover Our Team</a>
             </Button>
-            <Button size="lg" variant="outline" asChild>
-              <a href="#contact">Get In Touch</a>
+            <Button size="lg" variant="outline" className="text-base" asChild>
+              <a href="#car">View The Car</a>
             </Button>
           </div>
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      <button
-        onClick={scrollToAbout}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-foreground transition-colors animate-bounce"
-        aria-label="Scroll to content"
+      <a
+        href="#about"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors animate-bounce"
       >
         <ChevronDown className="h-8 w-8" />
-      </button>
+      </a>
     </section>
   );
 }

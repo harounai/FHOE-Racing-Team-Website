@@ -1,37 +1,37 @@
 import { Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// Instagram embed posts - these would be replaced with actual embeds or fetched content
+// Instagram post links - update these with actual post URLs
 const instagramPosts = [
   {
-    id: 1,
-    image: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=400&fit=crop",
-    alt: "Racing team update",
+    id: "1",
+    url: "https://www.instagram.com/p/C_example1/",
+    embedUrl: "https://www.instagram.com/p/C_example1/embed",
   },
   {
-    id: 2,
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=400&fit=crop",
-    alt: "Car development",
+    id: "2",
+    url: "https://www.instagram.com/p/C_example2/",
+    embedUrl: "https://www.instagram.com/p/C_example2/embed",
   },
   {
-    id: 3,
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop",
-    alt: "Team event",
+    id: "3",
+    url: "https://www.instagram.com/p/C_example3/",
+    embedUrl: "https://www.instagram.com/p/C_example3/embed",
   },
   {
-    id: 4,
-    image: "https://images.unsplash.com/photo-1541348263662-e068662d82af?w=400&h=400&fit=crop",
-    alt: "Workshop session",
+    id: "4",
+    url: "https://www.instagram.com/p/C_example4/",
+    embedUrl: "https://www.instagram.com/p/C_example4/embed",
   },
   {
-    id: 5,
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=400&fit=crop",
-    alt: "Competition prep",
+    id: "5",
+    url: "https://www.instagram.com/p/C_example5/",
+    embedUrl: "https://www.instagram.com/p/C_example5/embed",
   },
   {
-    id: 6,
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=400&fit=crop",
-    alt: "Team photo",
+    id: "6",
+    url: "https://www.instagram.com/p/C_example6/",
+    embedUrl: "https://www.instagram.com/p/C_example6/embed",
   },
 ];
 
@@ -51,25 +51,21 @@ export function InstagramPreview() {
           </p>
         </div>
 
-        {/* Instagram Grid - 3x2 layout */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
+        {/* Instagram Embeds Grid - 3x2 layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto mb-8">
           {instagramPosts.map((post) => (
-            <a
+            <div
               key={post.id}
-              href="https://www.instagram.com/fhooe_racingteam/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="aspect-square overflow-hidden rounded-lg group relative"
+              className="aspect-square overflow-hidden rounded-lg bg-card"
             >
-              <img
-                src={post.image}
-                alt={post.alt}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              <iframe
+                src={post.embedUrl}
+                className="w-full h-full border-0"
+                allowTransparency
+                scrolling="no"
+                title={`Instagram post ${post.id}`}
               />
-              <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300 flex items-center justify-center">
-                <Instagram className="h-8 w-8 text-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-            </a>
+            </div>
           ))}
         </div>
 

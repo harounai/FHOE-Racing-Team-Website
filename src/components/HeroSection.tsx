@@ -1,5 +1,4 @@
 import heroBanner from "@/assets/hero-banner.png";
-import checkeredBackground from "@/assets/checkered-background.avif";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 
@@ -9,13 +8,11 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${checkeredBackground})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background to-primary/10">
+      {/* Subtle geometric accents */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] rounded-full bg-accent/5 blur-3xl" />
       </div>
 
       {/* Content */}
@@ -24,7 +21,7 @@ export function HeroSection() {
           <img
             src={heroBanner}
             alt="FHOOE Racing Team Banner"
-            className="w-full max-w-2xl mx-auto"
+            className="w-full max-w-2xl mx-auto animate-fade-in"
           />
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground tracking-tight">
@@ -35,7 +32,7 @@ export function HeroSection() {
             Formula Student Team at FH Upper Austria - Engineering Excellence, Racing Passion
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Button size="lg" onClick={scrollToAbout}>
               Discover More
             </Button>

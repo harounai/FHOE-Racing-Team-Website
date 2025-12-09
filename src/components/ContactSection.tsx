@@ -2,10 +2,8 @@ import { Mail, MapPin, Instagram, Linkedin, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import logoWhite from "@/assets/logo-white.png";
-
 export function ContactSection() {
-  return (
-    <footer id="contact" className="py-24 bg-card border-t border-border">
+  return <footer id="contact" className="py-24 bg-card border-t border-border">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
@@ -13,37 +11,18 @@ export function ContactSection() {
             <div className="flex items-center gap-2 mb-4">
               <img src={logoWhite} alt="FH OÖ Racing Team" className="h-12 w-auto invert dark:invert-0" />
             </div>
-            <p className="text-muted-foreground mb-6 max-w-sm">
-              The FHOÖ Racing Team is part of the University of Applied Sciences
-              Upper Austria, combining expertise from various technical fields
-              to compete in Formula Student.
-            </p>
+            <p className="text-muted-foreground mb-6 max-w-sm">FHOÖ Racing Team 
+University of Applied Sciences Upper Austria
+
+          </p>
             <div className="flex gap-4">
-              <a
-                href="https://www.instagram.com/fhooe_racingteam/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                aria-label="Instagram"
-              >
+              <a href="https://www.instagram.com/fhooe_racingteam/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="Instagram">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a
-                href="https://www.linkedin.com/company/fhooe-racing-team/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                aria-label="LinkedIn"
-              >
+              <a href="https://www.linkedin.com/company/fhooe-racing-team/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="LinkedIn">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a
-                href="https://fh-ooe.at/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                aria-label="FH Upper Austria"
-              >
+              <a href="https://fh-ooe.at/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="FH Upper Austria">
                 <ExternalLink className="h-5 w-5" />
               </a>
             </div>
@@ -119,6 +98,5 @@ export function ContactSection() {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 }

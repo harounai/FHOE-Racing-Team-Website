@@ -1,4 +1,4 @@
-import { Mail, MapPin, Instagram, Linkedin, ExternalLink, Send } from "lucide-react";
+import { Mail, MapPin, Instagram, Linkedin, ExternalLink, Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import logoWhite from "@/assets/logo-white.png";
 import checkeredBackground from "@/assets/checkered-background.avif";
 
@@ -24,20 +25,36 @@ export function ContactSection() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // For now, open mailto link - can be replaced with edge function later
-    const mailtoLink = `mailto:formula.student@fh-ooe.at?subject=${encodeURIComponent(
-      formData.subject
-    )}&body=${encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`
-    )}`;
-    window.location.href = mailtoLink;
+    try {
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
+        body: formData,
+      });
 
-    toast({
-      title: "Opening email client",
-      description: "Your email client should open with the message pre-filled.",
-    });
+      if (error) throw error;
 
-    setIsSubmitting(false);
+      toast({
+        title: "Message sent!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
+      });
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error: any) {
+      console.error("Error sending message:", error);
+      toast({
+        title: "Error sending message",
+        description: "Please try again or email us directly at formula.student@fh-ooe.at",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -204,8 +221,17 @@ export function ContactSection() {
                   className="w-full"
                   disabled={isSubmitting}
                 >
-                  <Send className="h-4 w-4 mr-2" />
-                  Submit
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4 mr-2" />
+                      Submit
+                    </>
+                  )}
                 </Button>
               </form>
             </div>

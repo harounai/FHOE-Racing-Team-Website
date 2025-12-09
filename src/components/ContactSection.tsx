@@ -1,5 +1,7 @@
-import { Mail, MapPin, Instagram, Linkedin, Youtube } from "lucide-react";
+import { Mail, MapPin, Instagram, Linkedin, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import logoWhite from "@/assets/logo-white.png";
 
 export function ContactSection() {
   return (
@@ -9,36 +11,40 @@ export function ContactSection() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-primary rounded-sm flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">FS</span>
-              </div>
-              <span className="font-bold text-xl text-foreground">Racing Team</span>
+              <img src={logoWhite} alt="FH OÖ Racing Team" className="h-12 w-auto invert dark:invert-0" />
             </div>
             <p className="text-muted-foreground mb-6 max-w-sm">
-              Engineering the future of motorsport, one race at a time. Join us
-              on our journey to excellence.
+              The FHOÖ Racing Team is part of the University of Applied Sciences
+              Upper Austria, combining expertise from various technical fields
+              to compete in Formula Student.
             </p>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.instagram.com/fhooe_racingteam/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/fhooe-racing-team/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://fh-ooe.at/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                aria-label="YouTube"
+                aria-label="FH Upper Austria"
               >
-                <Youtube className="h-5 w-5" />
+                <ExternalLink className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -47,16 +53,31 @@ export function ContactSection() {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {["About", "Team", "The Car", "Sponsors"].map((link) => (
-                <li key={link}>
-                  <a
-                    href={`#${link.toLowerCase().replace(" ", "")}`}
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a href="/#about" className="text-muted-foreground hover:text-primary transition-colors">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="/#team" className="text-muted-foreground hover:text-primary transition-colors">
+                  Team
+                </a>
+              </li>
+              <li>
+                <a href="/#car" className="text-muted-foreground hover:text-primary transition-colors">
+                  The Car
+                </a>
+              </li>
+              <li>
+                <a href="/#sponsors" className="text-muted-foreground hover:text-primary transition-colors">
+                  Sponsors
+                </a>
+              </li>
+              <li>
+                <Link to="/news" className="text-muted-foreground hover:text-primary transition-colors">
+                  News
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -66,28 +87,36 @@ export function ContactSection() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Mail className="h-5 w-5 text-primary mt-0.5" />
-                <span className="text-muted-foreground">
-                  team@fsracing.edu
-                </span>
+                <a href="mailto:formula.student@fh-ooe.at" className="text-muted-foreground hover:text-primary transition-colors">
+                  formula.student@fh-ooe.at
+                </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-primary mt-0.5" />
                 <span className="text-muted-foreground">
-                  Engineering Building, University Campus
+                  Stelzhamerstraße 23<br />
+                  AT-4600 Wels, Austria
                 </span>
               </li>
             </ul>
             <Button className="mt-6" asChild>
-              <a href="mailto:team@fsracing.edu">Get In Touch</a>
+              <a href="mailto:formula.student@fh-ooe.at">Get In Touch</a>
             </Button>
           </div>
         </div>
 
-        <div className="border-t border-border pt-8 text-center">
+        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-sm">
-            © {new Date().getFullYear()} Formula Student Racing Team. All rights
-            reserved.
+            © {new Date().getFullYear()} FHOÖ Racing Team. All rights reserved.
           </p>
+          <div className="flex gap-6 text-sm">
+            <Link to="/impressum" className="text-muted-foreground hover:text-primary transition-colors">
+              Impressum
+            </Link>
+            <Link to="/datenschutz" className="text-muted-foreground hover:text-primary transition-colors">
+              Datenschutz
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -3,40 +3,58 @@ import { Linkedin } from "lucide-react";
 
 const teamMembers = [
   {
-    name: "Alex Martinez",
-    role: "Team Principal",
-    department: "Leadership",
+    name: "David Hödl",
+    role: "Technical Director",
+    department: "Management",
+    initials: "DH",
+  },
+  {
+    name: "Manuel Reitmeier",
+    role: "Technical Director",
+    department: "Management",
+    initials: "MR",
+  },
+  {
+    name: "Manuel Frank",
+    role: "Faculty Advisor",
+    department: "FH Upper Austria",
+    initials: "MF",
+  },
+  {
+    name: "Flora Schachinger",
+    role: "Sponsoring Lead",
+    department: "ORG Team",
+    initials: "FS",
+  },
+  {
+    name: "Mohamed Haroun",
+    role: "Finance Lead",
+    department: "ORG Team",
+    initials: "MH",
+  },
+  {
+    name: "Marco Perazzoli",
+    role: "Marketing Lead",
+    department: "ORG Team",
+    initials: "MP",
+  },
+  {
+    name: "Pranay Naga",
+    role: "Electronics Lead Engineer",
+    department: "Tech Team",
+    initials: "PN",
+  },
+  {
+    name: "Anes Murica",
+    role: "Brake Lead Engineer",
+    department: "Tech Team",
     initials: "AM",
   },
   {
-    name: "Sarah Chen",
-    role: "Technical Director",
-    department: "Engineering",
-    initials: "SC",
-  },
-  {
-    name: "Marcus Johnson",
-    role: "Lead Driver",
-    department: "Operations",
-    initials: "MJ",
-  },
-  {
-    name: "Emma Wilson",
-    role: "Aerodynamics Lead",
-    department: "Engineering",
-    initials: "EW",
-  },
-  {
-    name: "David Kim",
-    role: "Powertrain Lead",
-    department: "Engineering",
-    initials: "DK",
-  },
-  {
-    name: "Lisa Rodriguez",
-    role: "Business Manager",
-    department: "Business",
-    initials: "LR",
+    name: "Lukas Strauss",
+    role: "Suspension Lead Engineer",
+    department: "Tech Team",
+    initials: "LS",
   },
 ];
 
@@ -49,11 +67,11 @@ export function TeamSection() {
             Our Team
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Meet the People Behind the Machine
+            Meet Our Leadership
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Our diverse team of engineers, designers, and business professionals
-            work together to achieve racing excellence.
+            Our team of dedicated students from various engineering and business
+            disciplines work together to achieve racing excellence.
           </p>
         </div>
 
@@ -80,7 +98,9 @@ export function TeamSection() {
                     </p>
                   </div>
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/company/fhooe-racing-team/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary transition-colors"
                     aria-label={`${member.name}'s LinkedIn`}
                   >

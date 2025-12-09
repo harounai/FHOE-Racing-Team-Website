@@ -6,7 +6,7 @@ export function HeroSection() {
   return <section id="home" className="relative min-h-screen overflow-hidden flex-row flex items-center justify-center">
       {/* Checkered Background */}
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
-      backgroundImage: `url(${checkeredBackground})`
+      backgroundImage: "url(\"/lovable-uploads/13bf9b8c-f288-45f7-a3a5-4305fbf83a1c.png\")"
     }}>
         <div className="absolute inset-0 bg-background/80" />
       </div>

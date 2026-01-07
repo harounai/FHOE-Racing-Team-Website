@@ -16,6 +16,18 @@ interface ContactEmailRequest {
   message: string;
 }
 
+// HTML escape function to prevent XSS in email clients
+function escapeHtml(text: string): string {
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
+}
+
 Deno.serve(async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -38,20 +50,27 @@ Deno.serve(async (req: Request): Promise<Response> => {
       );
     }
 
+    // Escape user inputs for safe HTML rendering
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safePhone = phone ? escapeHtml(phone) : "";
+    const safeSubject = escapeHtml(subject);
+    const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
+
     // Send email to the team
     const emailResponse = await resend.emails.send({
       from: "FHOOE Racing Team Contact <onboarding@resend.dev>",
       to: ["formula.student@fh-ooe.at"],
-      subject: `[Contact Form] ${subject}`,
+      subject: `[Contact Form] ${safeSubject}`,
       html: `
         <h2>New Contact Form Submission</h2>
-        <p><strong>From:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ""}
-        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>From:</strong> ${safeName}</p>
+        <p><strong>Email:</strong> ${safeEmail}</p>
+        ${safePhone ? `<p><strong>Phone:</strong> ${safePhone}</p>` : ""}
+        <p><strong>Subject:</strong> ${safeSubject}</p>
         <hr />
         <h3>Message:</h3>
-        <p>${message.replace(/\n/g, "<br>")}</p>
+        <p>${safeMessage}</p>
       `,
       reply_to: email,
     });
@@ -64,12 +83,12 @@ Deno.serve(async (req: Request): Promise<Response> => {
       to: [email],
       subject: "Thank you for contacting FHOOE Racing Team!",
       html: `
-        <h2>Thank you for reaching out, ${name}!</h2>
+        <h2>Thank you for reaching out, ${safeName}!</h2>
         <p>We have received your message and will get back to you as soon as possible.</p>
         <hr />
         <p><strong>Your message:</strong></p>
-        <p><em>${subject}</em></p>
-        <p>${message.replace(/\n/g, "<br>")}</p>
+        <p><em>${safeSubject}</em></p>
+        <p>${safeMessage}</p>
         <hr />
         <p>Best regards,<br>FHOOE Racing Team<br>"To The Racetrack!"</p>
       `,
@@ -83,9 +102,13 @@ Deno.serve(async (req: Request): Promise<Response> => {
       }
     );
   } catch (error: any) {
-    console.error("Error in send-contact-email function:", error);
+    console.error("Error in send-contact-email function:", {
+      error: error.message,
+      stack: error.stack,
+      timestamp: new Date().toISOString()
+    });
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: "Failed to send message. Please try again or contact us directly." }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },

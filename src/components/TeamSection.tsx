@@ -3,6 +3,12 @@ import { Linkedin } from "lucide-react";
 
 const teamMembers = [
   {
+    name: "Matthias Engelbrecht",
+    role: "Team Captain",
+    department: "Management",
+    initials: "ME",
+  },
+  {
     name: "David Hödl",
     role: "Technical Director",
     department: "Management",
@@ -19,12 +25,6 @@ const teamMembers = [
     role: "Faculty Advisor",
     department: "FH Upper Austria",
     initials: "MF",
-  },
-  {
-    name: "Flora Schachinger",
-    role: "Sponsoring Lead",
-    department: "ORG Team",
-    initials: "FS",
   },
   {
     name: "Mohamed Haroun",

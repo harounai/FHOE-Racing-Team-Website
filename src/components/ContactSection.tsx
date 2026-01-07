@@ -1,17 +1,14 @@
-import { Mail, MapPin, Instagram, Linkedin, ExternalLink, Send, Loader2 } from "lucide-react";
+import { Mail, MapPin, Instagram, Linkedin, ExternalLink, Send, Loader2, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import logoWhite from "@/assets/logo-white.png";
 import checkeredBackground from "@/assets/checkered-background.avif";
 
 export function ContactSection() {
-  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,24 +17,35 @@ export function ContactSection() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("send-contact-email", {
-        body: formData,
+      const response = await fetch("https://formspree.io/f/mjgknwgw", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+          _subject: "[Website Contact Form] New message",
+          source: "formula-student-website",
+          _template: "table",
+          _replyto: formData.email,
+        }),
       });
 
-      if (error) throw error;
+      if (!response.ok) throw new Error("Failed to submit");
 
-      toast({
-        title: "Message sent!",
-        description: "Thank you for contacting us. We'll get back to you soon.",
-      });
-
-      // Reset form
+      setIsSuccess(true);
       setFormData({
         name: "",
         email: "",
@@ -45,13 +53,9 @@ export function ContactSection() {
         subject: "",
         message: "",
       });
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error sending message:", error);
-      toast({
-        title: "Error sending message",
-        description: "Please try again or email us directly at formula.student@fh-ooe.at",
-        variant: "destructive",
-      });
+      alert("Failed to send message. Please try again or email us directly at formula.student@fh-ooe.at");
     } finally {
       setIsSubmitting(false);
     }
@@ -132,108 +136,122 @@ export function ContactSection() {
 
             {/* Right Side - Form */}
             <div className="bg-card/80 backdrop-blur-sm p-8 rounded-lg">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <Label htmlFor="name" className="text-foreground">
-                    Name *
-                  </Label>
-                  <Input
-                    id="name"
-                    placeholder="e.g. Max Mustermann"
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
-                    required
-                    className="mt-2 bg-background"
-                  />
+              {isSuccess ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <CheckCircle className="h-16 w-16 text-primary mb-4" />
+                  <p className="text-xl text-foreground">
+                    Thanks for reaching out! We'll get back to you shortly.
+                  </p>
                 </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <Label htmlFor="name" className="text-foreground">
+                      Name *
+                    </Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      placeholder="e.g. Max Mustermann"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      required
+                      className="mt-2 bg-background"
+                    />
+                  </div>
 
-                <div>
-                  <Label htmlFor="email" className="text-foreground">
-                    Email address *
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="e.g. max@example.com"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    required
-                    className="mt-2 bg-background"
-                  />
-                </div>
+                  <div>
+                    <Label htmlFor="email" className="text-foreground">
+                      Email address *
+                    </Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="e.g. max@example.com"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      required
+                      className="mt-2 bg-background"
+                    />
+                  </div>
 
-                <div>
-                  <Label htmlFor="phone" className="text-foreground">
-                    Phone
-                  </Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="e.g. +43 123 456 789"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({ ...formData, phone: e.target.value })
-                    }
-                    className="mt-2 bg-background"
-                  />
-                </div>
+                  <div>
+                    <Label htmlFor="phone" className="text-foreground">
+                      Phone
+                    </Label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="e.g. +43 123 456 789"
+                      value={formData.phone}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
+                      className="mt-2 bg-background"
+                    />
+                  </div>
 
-                <div>
-                  <Label htmlFor="subject" className="text-foreground">
-                    Subject *
-                  </Label>
-                  <Input
-                    id="subject"
-                    placeholder="e.g. Sponsorship inquiry"
-                    value={formData.subject}
-                    onChange={(e) =>
-                      setFormData({ ...formData, subject: e.target.value })
-                    }
-                    required
-                    className="mt-2 bg-background"
-                  />
-                </div>
+                  <div>
+                    <Label htmlFor="subject" className="text-foreground">
+                      Subject *
+                    </Label>
+                    <Input
+                      id="subject"
+                      name="subject"
+                      placeholder="e.g. Sponsorship inquiry"
+                      value={formData.subject}
+                      onChange={(e) =>
+                        setFormData({ ...formData, subject: e.target.value })
+                      }
+                      required
+                      className="mt-2 bg-background"
+                    />
+                  </div>
 
-                <div>
-                  <Label htmlFor="message" className="text-foreground">
-                    Message *
-                  </Label>
-                  <Textarea
-                    id="message"
-                    placeholder="Your message..."
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    required
-                    rows={4}
-                    className="mt-2 bg-background"
-                  />
-                </div>
+                  <div>
+                    <Label htmlFor="message" className="text-foreground">
+                      Message *
+                    </Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      placeholder="Your message..."
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      required
+                      rows={4}
+                      className="mt-2 bg-background"
+                    />
+                  </div>
 
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="h-4 w-4 mr-2" />
-                      Submit
-                    </>
-                  )}
-                </Button>
-              </form>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4 mr-2" />
+                        Submit
+                      </>
+                    )}
+                  </Button>
+                </form>
+              )}
             </div>
           </div>
         </div>

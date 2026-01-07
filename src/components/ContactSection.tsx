@@ -27,10 +27,9 @@ export function ContactSection() {
       const response = await fetch("https://formspree.io/f/mjgknwgw", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({
+        body: new URLSearchParams({
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -40,7 +39,7 @@ export function ContactSection() {
           source: "formula-student-website",
           _template: "table",
           _replyto: formData.email,
-        }),
+        }).toString(),
       });
 
       if (!response.ok) throw new Error("Failed to submit");

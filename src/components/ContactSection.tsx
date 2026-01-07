@@ -15,6 +15,7 @@ export function ContactSection() {
     phone: "",
     subject: "",
     message: "",
+    _gotcha: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -35,10 +36,11 @@ export function ContactSection() {
           phone: formData.phone,
           subject: formData.subject,
           message: formData.message,
-          _subject: "[Website Contact Form] New message",
+          _subject: `[FS Website] ${formData.subject}`,
           source: "formula-student-website",
           _template: "table",
           _replyto: formData.email,
+          _gotcha: formData._gotcha,
         }).toString(),
       });
 
@@ -51,6 +53,7 @@ export function ContactSection() {
         phone: "",
         subject: "",
         message: "",
+        _gotcha: "",
       });
     } catch (error) {
       console.error("Error sending message:", error);
@@ -144,6 +147,18 @@ export function ContactSection() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Honeypot field for spam protection - hidden from users */}
+                  <input
+                    type="text"
+                    name="_gotcha"
+                    value={formData._gotcha}
+                    onChange={(e) =>
+                      setFormData({ ...formData, _gotcha: e.target.value })
+                    }
+                    style={{ display: "none" }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
                   <div>
                     <Label htmlFor="name" className="text-foreground">
                       Name *

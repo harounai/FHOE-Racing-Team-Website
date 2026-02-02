@@ -15,6 +15,55 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Wrench, ChevronRight, Send, FileText, MessageSquare, UserPlus, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { z } from "zod";
+
+// Validation schemas
+const applicationSchema = z.object({
+  firstName: z.string()
+    .trim()
+    .min(2, "First name must be at least 2 characters")
+    .max(50, "First name must be less than 50 characters")
+    .regex(/^[a-zA-ZäöüÄÖÜß\s'-]+$/, "First name contains invalid characters"),
+  lastName: z.string()
+    .trim()
+    .min(2, "Last name must be at least 2 characters")
+    .max(50, "Last name must be less than 50 characters")
+    .regex(/^[a-zA-ZäöüÄÖÜß\s'-]+$/, "Last name contains invalid characters"),
+  email: z.string()
+    .trim()
+    .email("Please enter a valid email address")
+    .max(255, "Email must be less than 255 characters"),
+  phone: z.string()
+    .trim()
+    .min(6, "Phone number is too short")
+    .max(30, "Phone number is too long")
+    .regex(/^[+]?[0-9\s()-]{6,30}$/, "Please enter a valid phone number"),
+  fieldOfStudy: z.string()
+    .trim()
+    .min(2, "Field of study must be at least 2 characters")
+    .max(100, "Field of study must be less than 100 characters"),
+  interests: z.array(z.string()).min(1, "Please select at least one interest"),
+  motivation: z.string()
+    .trim()
+    .max(1000, "Motivation must be less than 1000 characters")
+    .optional()
+    .or(z.literal("")),
+});
+
+const contactSchema = z.object({
+  name: z.string()
+    .trim()
+    .min(2, "Name must be at least 2 characters")
+    .max(100, "Name must be less than 100 characters"),
+  email: z.string()
+    .trim()
+    .email("Please enter a valid email address")
+    .max(255, "Email must be less than 255 characters"),
+  message: z.string()
+    .trim()
+    .min(10, "Message must be at least 10 characters")
+    .max(2000, "Message must be less than 2000 characters"),
+});
 
 // Configuration - set to true when application phase opens
 const APPLICATIONS_OPEN = false;
@@ -139,17 +188,32 @@ const JoinTeam = () => {
     
     if (!APPLICATIONS_OPEN) return;
 
+    // Validate form data with Zod
+    const validationResult = applicationSchema.safeParse(applicationForm);
+    
+    if (!validationResult.success) {
+      const firstError = validationResult.error.errors[0];
+      toast({
+        title: "Validation Error",
+        description: firstError.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmittingApplication(true);
 
     try {
+      const validated = validationResult.data;
+      
       const { error } = await supabase.from("applications").insert({
-        first_name: applicationForm.firstName.trim(),
-        last_name: applicationForm.lastName.trim(),
-        email: applicationForm.email.trim(),
-        phone: applicationForm.phone.trim(),
-        field_of_study: applicationForm.fieldOfStudy.trim(),
-        interests: applicationForm.interests,
-        motivation: applicationForm.motivation.trim() || null,
+        first_name: validated.firstName,
+        last_name: validated.lastName,
+        email: validated.email,
+        phone: validated.phone,
+        field_of_study: validated.fieldOfStudy,
+        interests: validated.interests,
+        motivation: validated.motivation || null,
       });
 
       if (error) throw error;
@@ -188,22 +252,41 @@ const JoinTeam = () => {
       return;
     }
 
+    // Validate contact form with Zod
+    const validationResult = contactSchema.safeParse({
+      name: contactForm.name,
+      email: contactForm.email,
+      message: contactForm.message,
+    });
+
+    if (!validationResult.success) {
+      const firstError = validationResult.error.errors[0];
+      toast({
+        title: "Validation Error",
+        description: firstError.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmittingContact(true);
 
     try {
+      const validated = validationResult.data;
+      
       const response = await fetch("https://formspree.io/f/mjgknwgw", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-          name: contactForm.name.trim(),
-          email: contactForm.email.trim(),
-          message: contactForm.message.trim(),
-          _subject: `[Join Team Inquiry] Message from ${contactForm.name.trim()}`,
+          name: validated.name,
+          email: validated.email,
+          message: validated.message,
+          _subject: `[Join Team Inquiry] Message from ${validated.name}`,
           source: "join-team-page",
           _template: "table",
-          _replyto: contactForm.email.trim(),
+          _replyto: validated.email,
           _gotcha: contactForm.honeypot,
         }).toString(),
       });

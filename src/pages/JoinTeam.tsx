@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/accordion";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Mail, Users, Wrench, Trophy, ChevronRight, Send, FileText, MessageSquare, UserPlus } from "lucide-react";
+import { Wrench, ChevronRight, Send, FileText, MessageSquare, UserPlus, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 // Configuration - set to true when application phase opens
@@ -183,40 +183,32 @@ const JoinTeam = () => {
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate required fields
-    if (!contactForm.name.trim() || !contactForm.email.trim() || !contactForm.message.trim()) {
-      toast({
-        title: "Missing fields",
-        description: "Please fill in all required fields.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(contactForm.email.trim())) {
-      toast({
-        title: "Invalid email",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      });
+    // Honeypot check - if filled, it's a bot
+    if (contactForm.honeypot) {
       return;
     }
 
     setIsSubmittingContact(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("send-contact-email", {
-        body: {
+      const response = await fetch("https://formspree.io/f/mjgknwgw", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
           name: contactForm.name.trim(),
           email: contactForm.email.trim(),
           message: contactForm.message.trim(),
-          honeypot: contactForm.honeypot,
-        },
+          _subject: `[Join Team Inquiry] Message from ${contactForm.name.trim()}`,
+          source: "join-team-page",
+          _template: "table",
+          _replyto: contactForm.email.trim(),
+          _gotcha: contactForm.honeypot,
+        }).toString(),
       });
 
-      if (error) throw error;
+      if (!response.ok) throw new Error("Failed to submit");
 
       toast({
         title: "Message sent!",
@@ -233,7 +225,7 @@ const JoinTeam = () => {
       console.error("Contact form error:", error);
       toast({
         title: "Failed to send message",
-        description: "Something went wrong. Please try again later.",
+        description: "Something went wrong. Please try again or email us directly at formula.student@fh-ooe.at",
         variant: "destructive",
       });
     } finally {
@@ -592,7 +584,10 @@ const JoinTeam = () => {
               disabled={isSubmittingContact}
             >
               {isSubmittingContact ? (
-                "Sending..."
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Sending...
+                </>
               ) : (
                 <>
                   <Send className="w-4 h-4" />
